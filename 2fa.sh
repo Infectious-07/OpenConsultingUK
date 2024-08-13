@@ -7,28 +7,14 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Variables
-PASSWORD="TestPassword123!"  # Default test password
 GOOGLE_AUTH_CMD="/usr/bin/google-authenticator"
 
-# Function to generate the next available username
-generate_username() {
-  prefix="u"
-  i=1
-
-  while true; do
-    # Format the username with leading zeros, e.g., u001, u002
-    USERNAME=$(printf "%s%03d" "$prefix" "$i")
-
-    # Check if the user already exists
-    if ! id -u "$USERNAME" >/dev/null 2>&1; then
-      break
-    fi
-
-    # Increment the number
-    i=$((i + 1))
-  done
-
-  echo "Next available username: $USERNAME"
+# Function to ask user for username and password
+ask_username_password() {
+  echo 'Please enter a username: '
+  read USERNAME
+  echo 'Please enter a password: '
+  read PASSWORD
 }
 
 # Function to create a new user and set the password
